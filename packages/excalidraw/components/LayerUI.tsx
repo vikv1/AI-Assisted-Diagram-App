@@ -73,6 +73,7 @@ import type {
   UIAppState,
   AppClassProperties,
 } from "../types";
+import { AIButton } from "./AIButton";
 
 interface LayerUIProps {
   actionManager: ActionManager;
@@ -291,6 +292,11 @@ const LayerUI = ({
                               penDetected={appState.penDetected}
                             />
                             <LockButton
+                              checked={appState.activeTool.locked}
+                              onChange={onLockToggle}
+                              title={t("toolBar.lock")}
+                            />
+                            <AIButton
                               checked={appState.activeTool.locked}
                               onChange={onLockToggle}
                               title={t("toolBar.lock")}

@@ -2244,3 +2244,14 @@ export const elementLinkIcon = createIcon(
   </g>,
   tablerIconProps,
 );
+
+export const AIIcon = createIcon(
+  <g strokeWidth="1.25">
+    <path d="M12 3a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9z" />
+    <path d="M12 7v10" />
+    <path d="M7 12h10" />
+    <path d="M8 8l8 8" />
+    <path d="M8 16l8-8" />
+  </g>,
+  tablerIconProps,
+);

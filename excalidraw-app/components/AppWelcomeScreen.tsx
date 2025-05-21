@@ -3,6 +3,7 @@ import { POINTER_EVENTS } from "@excalidraw/common";
 import { useI18n } from "@excalidraw/excalidraw/i18n";
 import { WelcomeScreen } from "@excalidraw/excalidraw/index";
 import React from "react";
+import { AIIcon } from "@excalidraw/excalidraw/components/icons";
 
 import { isExcalidrawPlusSignedUser } from "../app_constants";
 
@@ -56,6 +57,10 @@ export const AppWelcomeScreen: React.FC<{
               onSelect={() => props.onCollabDialogOpen()}
             />
           )}
+          {/** TODO: Add AI Assistant */}
+          <WelcomeScreen.Center.MenuItem onSelect={() => {}} icon={AIIcon}>
+            AI Assistant
+          </WelcomeScreen.Center.MenuItem>
           {!isExcalidrawPlusSignedUser && (
             <WelcomeScreen.Center.MenuItemLink
               href={`${
