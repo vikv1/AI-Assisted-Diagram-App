@@ -40,7 +40,9 @@ const LogoText = () => (
         transform="translate(-144.023 -51.76)"
       />
     </svg>
-    <span style={{ marginLeft: "4px", fontSize: "24px" }}>(+ AI)</span>
+    <span style={{ color: "red", marginLeft: "4px", fontSize: "24px" }}>
+      (+ AI)
+    </span>
     <span style={{ marginLeft: "4px", fontSize: "14px" }}>
       (by Vikrant Verma)
     </span>
