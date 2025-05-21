@@ -2255,3 +2255,15 @@ export const AIIcon = createIcon(
   </g>,
   tablerIconProps,
 );
+
+export const SendIcon = createIcon(
+  "SendIcon",
+  <path
+    d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
+    fill="currentColor"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  />,
+);

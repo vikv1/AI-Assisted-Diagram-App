@@ -62,6 +62,8 @@ import { LaserPointerButton } from "./LaserPointerButton";
 import "./LayerUI.scss";
 import "./Toolbar.scss";
 
+import { AIButton } from "./AIButton";
+
 import type { ActionManager } from "../actions/manager";
 
 import type { Language } from "../i18n";
@@ -73,7 +75,6 @@ import type {
   UIAppState,
   AppClassProperties,
 } from "../types";
-import { AIButton } from "./AIButton";
 
 interface LayerUIProps {
   actionManager: ActionManager;
