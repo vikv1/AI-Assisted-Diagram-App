@@ -2132,7 +2132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@excalidraw/excalidraw@*, @excalidraw/excalidraw@workspace:^, @excalidraw/excalidraw@workspace:packages/excalidraw":
+"@excalidraw/excalidraw@*, @excalidraw/excalidraw@workspace:packages/excalidraw":
   version: 0.0.0-use.local
   resolution: "@excalidraw/excalidraw@workspace:packages/excalidraw"
   dependencies:
@@ -8175,7 +8175,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "excalidraw-app@workspace:excalidraw-app"
   dependencies:
-    "@excalidraw/excalidraw": "workspace:^"
+    "@excalidraw/excalidraw": "*"
     "@excalidraw/random-username": 1.0.0
     "@sentry/browser": 9.0.1
     callsites: 4.2.0
