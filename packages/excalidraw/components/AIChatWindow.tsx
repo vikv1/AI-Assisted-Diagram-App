@@ -4,10 +4,8 @@ import OpenAI from "openai";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
 import { convertToExcalidrawElements } from "@excalidraw/excalidraw";
 
-import { useUIAppState } from "../context/ui-appState";
-
 import { Button } from "./Button";
-import { useDevice, useApp } from "./App";
+import { useApp } from "./App";
 
 import "./AIChatWindow.scss";
 
@@ -34,7 +32,9 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const app = useApp();
+  const mermaidMap = useRef<Map<string, string>>(new Map());
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -84,7 +84,7 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
           {
             role: "system",
             content:
-              "You are a helpful AI assistant for Excalidraw, a whiteboard tool. Your task is to generate diagrams for the user in mermaid format and only return the mermaid code, no other text. Do not format the mermaid code with backticks.",
+              "You are a helpful AI assistant for Excalidraw, a whiteboard tool. Your task is to generate diagrams for the user in mermaid format and only return the mermaid code and header, no other text. Do not format the mermaid code with backticks. The exact format is 'Here is your diagram for {summary of user query}: {mermaid code}'. Make sure that the 'Here is your diagram part' is gramatically correct with the rest of the text. Also make sure each header is unique.",
           },
           ...messages,
           newMessage,
@@ -92,13 +92,17 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
         model: "gpt-4.1-nano",
       });
 
-      const mermaidCode =
-        completion.choices[0].message.content ||
-        "Sorry, I couldn't generate a response.";
+      const responseContent = completion.choices[0].message.content || "";
+      const colonIndex = responseContent.indexOf(":");
+      const mermaidHeader = `${responseContent.substring(0, colonIndex)}!`;
+      const mermaidCode = responseContent.substring(colonIndex + 1).trim();
+
+      // Store the mapping
+      mermaidMap.current.set(mermaidHeader, mermaidCode);
 
       const aiResponse: Message = {
         role: "assistant",
-        content: mermaidCode,
+        content: mermaidHeader,
       };
       setMessages((prev) => [...prev, aiResponse]);
 
@@ -121,6 +125,20 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      const newHeight = Math.min(textarea.scrollHeight, 120);
+      textarea.style.height = `${newHeight}px`;
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+    adjustTextareaHeight();
   };
 
   if (!isOpen) {
@@ -155,7 +173,10 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
               className="ai-chat-message-content"
               onClick={() => {
                 if (message.role === "assistant") {
-                  insertMermaidToEditor(message.content);
+                  const mermaidCode = mermaidMap.current.get(message.content);
+                  if (mermaidCode) {
+                    insertMermaidToEditor(mermaidCode);
+                  }
                 }
               }}
               style={{
@@ -181,9 +202,10 @@ export const AIChatWindow: React.FC<AIChatWindowProps> = ({
       </div>
       <div className="ai-chat-input-container">
         <textarea
+          ref={textareaRef}
           className="ai-chat-input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Describe the diagram you want to create..."
           rows={1}

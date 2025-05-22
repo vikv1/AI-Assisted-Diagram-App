@@ -99,20 +99,27 @@
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
+    background: var(--island-bg-color);
 
     .ai-chat-input {
       flex: 1;
       min-height: 40px;
       max-height: 120px;
-      padding: 0.5rem;
+      padding: 0.75rem;
       border: 1px solid var(--default-border-color);
       border-radius: 4px;
       resize: none;
       font-family: inherit;
-      font-size: 0.9rem;
-      line-height: 1.4;
+      font-size: 14px;
+      line-height: 1.5;
       background: var(--island-bg-color);
-      color: var(--color-gray-90);
+      color: var(--text-primary-color);
+      width: 100%;
+      box-sizing: border-box;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
 
       &:focus {
         outline: none;
